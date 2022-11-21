@@ -1,0 +1,40 @@
+package elastic;
+
+import io.vertx.core.json.JsonObject;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.io.IOException;
+
+@ApplicationScoped
+public class StudentServices {
+    @Inject
+    RestClient restClient;
+
+    public void index(Student student) throws IOException {
+        Request request = new Request(
+                "PUT",
+                "/Student/_doc/" + student.getID());
+        request.setJsonEntity(JsonObject.mapFrom(student).toString());
+        restClient.performRequest(request);
+    }
+    public Student get(String id) throws IOException {
+        Request request = new Request(
+                "GET",
+                "/students/_doc/" + id);
+        Response response = restClient.performRequest(request);
+        String responseBody = EntityUtils.toString(response.getEntity());
+        JsonObject json = new JsonObject(responseBody);
+        return json.getJsonObject("_source").mapTo(Student.class);
+    }
+
+}
+
+
+
+
+
