@@ -14,14 +14,18 @@ public class ElsticSearchController {
 
     @Inject
     StudentServices studentServices;
+    @Inject
+    Student student;
     @POST
 
     public Response index(Student student) throws IOException {
-        if (student.ID == null) {
-            student.ID = UUID.randomUUID().toString();
-        }
-        studentServices.index(student);
-        return Response.created(URI.create("/fruits/" + student.ID)).build();
+        if (student.getID() == null) {
+            this.student.setID(UUID.randomUUID().toString());
+        }else
+            this.student.setID(student.getID());
+        this.student.setFirstName(student.getFirstName());
+        this.student.setLastName(student.getLastName());
+        return Response.created(URI.create("/students/" + this.student.getID())).build();
     }
 
 
