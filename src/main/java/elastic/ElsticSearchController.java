@@ -39,9 +39,9 @@ public class ElsticSearchController {
 
     @GET
     @Path("/{id}")
-    public Student get(String id) throws IOException {
-System.out.println("this is id: "+id);
-Student searchStudent =studentServices.get(id);
+    public Student get( @PathParam("id") String id) throws IOException {
+        System.out.println("this is id: "+id);
+        Student searchStudent =studentServices.get(id);
         System.out.println("get id is working");
 return  searchStudent;
     }
