@@ -1,9 +1,9 @@
 package elastic;
 
 public class Student {
-    String firstName;
-    String lastName;
-    String ID;
+   private String firstName;
+    private String lastName;
+    private String ID;
 
     public Student(){}
     public Student(String firstName,String lastName ){

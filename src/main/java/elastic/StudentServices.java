@@ -17,18 +17,22 @@ public class StudentServices {
 
     public void index(Student student) throws IOException {
         Request request = new Request(
-                "PUT",
-                "/Student/_doc/" + student.getID());
+                "POST",
+                "/Student/_doc/"+student.getID() );
         request.setJsonEntity(JsonObject.mapFrom(student).toString());
         restClient.performRequest(request);
     }
     public Student get(String id) throws IOException {
+        System.out.println("step 1");
         Request request = new Request(
                 "GET",
-                "/students/_doc/" + id);
+                "/Student/_doc/" + id);
+        System.out.println("step 2");
         Response response = restClient.performRequest(request);
+        System.out.println("step 3");
         String responseBody = EntityUtils.toString(response.getEntity());
         JsonObject json = new JsonObject(responseBody);
+        System.out.println("step 4");
         return json.getJsonObject("_source").mapTo(Student.class);
     }
 
